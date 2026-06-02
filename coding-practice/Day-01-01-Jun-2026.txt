@@ -1,0 +1,22 @@
+# Day 01 — Basics
+
+- name: Install Nginx on Pathnex server   # Human-readable name for the play
+  hosts: all                              # Run on ALL servers in your inventory
+  become: yes                             # Use sudo (root privileges)
+  tasks:
+    - name: Install nginx                 # Name of the task
+      yum:                                # Use the yum package manager (RHEL/CentOS/Amazon Linux)
+        name: nginx                       # Package to install
+        state: present                    # Ensure it's installed (use "absent" to remove)
+
+# Docker
+
+docker --version                         # Check Docker is installed
+docker run ubuntu echo "Hello Pathnex"   # Pull ubuntu image, run it, execute the echo command, then stop
+
+# Dockerfile
+
+FROM ubuntu:22.04          # Base image to start from
+CMD ["echo", "Hello Pathnex"]  # Default command to run when container starts
+
+
