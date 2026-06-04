@@ -1,0 +1,17 @@
+# Day 02 June 02
+
+# Today work
+
+- Linux Practice
+- Git branch creation and code push
+- Learned YAML Language
+- 2 hours of coding
+- 2 hours of Theory
+
+
+# Tomorrow's Task 
+
+- Git code push
+- Linux & Git Practice
+- YAML Practice
+- Introduction Practice 
