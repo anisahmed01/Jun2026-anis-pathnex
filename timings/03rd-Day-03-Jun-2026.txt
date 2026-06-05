@@ -1,0 +1,10 @@
+# Today's work 
+
+- Linux Command Practice
+- EC2 Creation
+- Linux Interview Questions
+
+# Tomorrow's Task
+- Linux all command Practice
+- Linux Interview Question Practice
+

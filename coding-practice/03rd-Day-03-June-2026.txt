@@ -1,0 +1,129 @@
+# playbook.yml - Ansible
+# yaml/yml language
+
+# Goal: Install Apache web server on all servers and make sure it's running
+
+- name: Install and Start Apache   # name of this play (label)
+  hosts: all                        # run on every server in inventory
+  become: yes                       # use sudo for admin privileges
+
+  tasks: 
+
+    - name: Install apache          # task 1
+      yum:                          # yum = package mnager/ installer
+        name: httpd                 # apache's package name on these systems
+        state: present              # "present" means: install it if not already installed
+
+
+    - name: Start apache            # task 2
+      service:
+        name: https                 # same service name as the package
+        state: started              # making sure it is running right now
+        enabled: yes                # also auto-start it on every reboot
+
+# -----------------------------------------------------------------
+
+# main.tf - Terraform
+# .tf language
+# Goal: create an EC2 server on AWS using code instead of clicking in console
+
+provider "aws"{
+  region = "us-east-1"  # aws data center (US East, Virginia)  
+}
+
+resource "aws_instance" "anisEC2" {         # example placeholder name
+  ami   = "ami-0abcd1234abcd1234"           #  AMI = the OS image fake ID
+  instance_type = "t3.medium"               # size and power of the server
+
+  tags = {
+    Name = "anis-T3"                        # label appears in the AWS console
+
+  }
+}
+
+# ----------------------------------------------------------------------
+
+# replicaset.yml - Kubernetes
+# yml language
+
+# Goal : Keep 3 copies of a nginx container always rinning in the cluster
+
+apiVersion: apps/v1                         # tells the kubernetes which API versio handles ReplicaSets
+kind: ReplicaSet                            # the type of object we are creating
+metadata:
+  name: anis-replicaset                     # namne of the replicaset inside the cluster
+
+spec:
+  replicas: 3                               # always keep exactly 3 pods running
+
+
+  selector:
+    matchLabels:
+      app: anis-app                         # this Replicaset manages pods that have this label
+
+
+  template:                                 # blueprint - how to create each pod
+    metadata:
+      labels:
+        app:  pathnex-app                   # must match selector above - this is how k8s links them
+
+    
+    spec:
+      containers:
+        - name: app                         # name of the container inside the pod
+          image: nginx                      # use the official nginx image from Docker Hub
+            - containerPort: 80             # nginx listens on port 80 inside the container
+
+
+# ------------------------------------------------------------------------
+
+# useerinfo.sh - ShellScript
+# bash
+
+#!/bin/bash
+# Goal: print basic info about the current useer
+# #!/bin/bash is called a shebang - tells the OS to run this file using bash
+
+
+echo "Current user: $(whoami)"              # @ $(groups) lists every group the current user belongs to
+
+
+# ---------------------------------------------------------------------------
+
+# Dockerfile - Docker
+#docker 
+# Goal: build a custom ngnix image that serves our own HTML page
+
+FROM nginx:latest                           # start from the official nginx image that serves our own HTML page
+
+
+COPY index:html /usr/share/nginx/html/index.html # replace ngnix's default page with our own index.html
+
+# /usr/share/nginx/html/ is where nginx looks for files to serve
+
+
+
+# -----------------------------------------------------------------------
+
+# index.html - HTML
+
+<!-- this is the page nginx will serve when someone visits the server -->
+
+<h1>Hello Anis</h1>
+
+# ------------------------------------------------------------------------
+
+
+# commands.sh - The Docker build and run commands ( these go in terminal, not in a file)
+
+# bash language
+
+# Goal : build the image tag it with the same "anis-nginx"
+# the dot ( . ) means : look for the Dockerfile in the current folder
+docker build -t anis-nginx                  # run the container:
+
+
+docker run -d -p 80:8- anis-nginx           # -d means detached ( runs in background)
+# -p 80:80 means map port 80 on machine to port 80 inside the container
+
+-----------------------------------------------------------------------
